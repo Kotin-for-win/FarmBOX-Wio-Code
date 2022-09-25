@@ -5,6 +5,7 @@ Note that these .cpp and .h files are under the BSD License, but it is compadibl
 Please Enjoy!
 
 wio-farmbox.ino -> the actual code that runs on the Wio maintaining a connection with the Raspberry Pi
+
 disk91_LoRaE5.cpp amd dosl91_LoRaE5.h -> code sourced from limengdu to enable communication with the Helium Network
 
 Problems we encountered and how community memebers reading this README can overcome them:
