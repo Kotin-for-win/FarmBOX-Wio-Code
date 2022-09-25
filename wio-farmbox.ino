@@ -20,8 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include <Arduino.h>
 #include "disk91_LoRaE5.h"
  
-Disk91_LoRaE5 lorae5(&Serial); // Where the AT command and debut traces are printed
- 
 #define Frequency DSKLORAE5_ZONE_EU868
 /*
 In theoretical production, users can choose there desiered band when ordering from the website.
@@ -115,9 +113,6 @@ void loop() {
         14                     // Tx Power in dBm, if you know what you are doing you may modify this value, otherwise 14 is recommended
        ); 
     }
-  }
-  else {
-  Serial.println("Setup FAILURE! Please investigate.");
   }
   delay(86400000); //wait 1 day before sending results out again.
 }
