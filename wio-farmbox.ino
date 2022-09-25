@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include <Arduino.h>
 #include "disk91_LoRaE5.h"
- 
+Disk91_LoRaE5 lorae5(&Serial);
 #define Frequency DSKLORAE5_ZONE_EU868
 /*
 In theoretical production, users can choose there desiered band when ordering from the website.
