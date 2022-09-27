@@ -113,30 +113,30 @@ void loop() {
             if (sensorValue > 500) {
               if (sensorValue > 600) {
                 if (sensorValue > 700) {
-                  int sensorStatus = 6; //emergency way too wet
+                  sensorStatus = 6; //emergency too wet
                 }
                 else {
-                   int sensorStatus = 5; // too wet
+                   sensorStatus = 5; // too wet
                 }
               }
               else {
-                int sensorStatus = 4; // wet
+                sensorStatus = 4; // wet
               }
             }
             else {
-              int sensorStatus = 3; // okay
+              sensorStatus = 3; // okay
             }
           }
           else {
-            int sensorStatus = 2; // dry
+            sensorStatus = 2; // dry
           }
         }
         else {
-          int sensorStatus = 1; // emergency too dry
+          sensorStatus = 1; // too dry
         }
       } 
       else {
-        int sensorStatus = 0; // emergency too dry
+        sensorStatus = 0; // emergency too dry
       }
       uint8_t uploadMe[18];
       data_decord(buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7], sensorStatus, uploadMe);
