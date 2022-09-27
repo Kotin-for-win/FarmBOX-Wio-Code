@@ -41,13 +41,15 @@ char appeui[] = "80000FFFFFF00009";
 char appkey[] = "2B7E151628FFFFFFFFFF158809CF4F3C";
 int setupState = 0;
 char buffer[100];
+int sensorPin = A0;
+int sensorValue = 0;
 /* 
 In theoretical production, we will generate these values and provide them to users on the User Manual.
 If you are a DIY user, please replace these values with the values you noted down in the 'Helium x FarmBOX Quickstart Guide'
 */
-void data_decord(int val_1, int val_2, int val_3, int val_4, int val_5, int val_6, int val_7, int val_8, uint8_t data[16])
+void data_decord(int val_1, int val_2, int val_3, int val_4, int val_5, int val_6, int val_7, int val_8, int val_9, uint8_t data[18])
 {
-  int val[] = {val_1, val_2, val_3, val_4, val_5, val_6, val_7, val_8};
+  int val[] = {val_1, val_2, val_3, val_4, val_5, val_6, val_7, val_8, val_9};
  
   for(int i = 0, j = 0; i < 8; i++, j += 8)
   {
@@ -102,8 +104,42 @@ void loop() {
       while (numChar--) {
         buffer[index++] = Serial.read();
       }
-      uint8_t uploadMe[16];
-      data_decord(buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7], uploadMe);
+      // get data from moisture sensor
+      sensorValue = analogRead(sensorPin);
+      int sensorStatus = 7; //read error
+      if (sensorValue > 200) {
+        if (sensorValue > 300) {
+          if (sensorValue > 400) {
+            if (sensorValue > 500) {
+              if (sensorValue > 600) {
+                if (sensorValue > 700) {
+                  int sensorStatus = 6; //emergency way too wet
+                }
+                else {
+                   int sensorStatus = 5; // too wet
+                }
+              }
+              else {
+                int sensorStatus = 4; // wet
+              }
+            }
+            else {
+              int sensorStatus = 3; // okay
+            }
+          }
+          else {
+            int sensorStatus = 2; // dry
+          }
+        }
+        else {
+          int sensorStatus = 1; // emergency too dry
+        }
+      } 
+      else {
+        int sensorStatus = 0; // emergency too dry
+      }
+      uint8_t uploadMe[18];
+      data_decord(buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7], sensorStatus, uploadMe);
       lorae5.send_sync(              //Sending the sensor values out
         8,                     // LoRaWan Port, FarmBOX does not care about this value, it can be anything you like
         uploadMe,                  // Our FarmBOX Data to send!
